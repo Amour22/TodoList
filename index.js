@@ -7,21 +7,17 @@ class TodoList {
     this.listElement = element;
     // 2- créez une propriété "textList" qui sera un tableau vide
     this.textList = [];
-    this.id=0;
   }
   static createListItem(text) {
     // text représente le texte à insérer dans un <li>
     // 1- créez un élément <li> (astuce: createElement() :)  )
     let li = document.createElement("li");
-    li.setAttribute("data-id",this.id);
-    // this.id+=1;
-    console.log(this.id);
     //creer un button qui va permetre de supprimmer la tache
     let deleteBtn = document.createElement("span");
-    deleteBtn.innerHTML="&cross;";
-    deleteBtn.id="deleteBtn";
+    deleteBtn.innerHTML = "&cross;";
+    deleteBtn.className = "deleteBtn";
     // 2- insérez à l'intérieur le text
-    li.append(text,deleteBtn);
+    li.append(text, deleteBtn);
     return li;
   }
 
@@ -32,7 +28,7 @@ class TodoList {
     this.listElement.innerHTML = " ";
     // 2- Insérer les <li> que vous créé à l'aide la méthode static createListItem
     this.textList.forEach(text => {
-        this.listElement.append(TodoList.createListItem(text));      
+      this.listElement.append(TodoList.createListItem(text));
     });
   }
   add(text) {
@@ -53,30 +49,49 @@ class TodoList {
 }
 
 // Une fois la classe créée, récupérez dans le JavaScript l'élément avec l'id "myList" créé dans le html.
-document.addEventListener("DOMContentLoaded", (ev) => {
-    ev.preventDefault();
-    let myList = document.querySelector("#myList");
+document.addEventListener("DOMContentLoaded", event => {
+  event.preventDefault();
+  let myList = document.querySelector("#myList");
 
-    // Instanciez ensuite un élément de la classe TodoList. (const todoApp = new TodoList(...))
-    const todoApp = new TodoList(myList);
+  // Instanciez ensuite un élément de la classe TodoList. (const todoApp = new TodoList(...))
+  const todoApp = new TodoList(myList);
 
-    // Test:
-    todoApp.add("Tache à faire 1") /* affiche sur la page html un li avec le text "Tache à faire 1" */
-    todoApp.add("Tache à faire 2") /* affiche sur la page html un li avec le text "Tache à faire 2" */
-    todoApp.add("Tache à faire 3") /* affiche sur la page html un li avec le text "Tache à faire 3" */
-    todoApp.add("Tache à faire 4") /* affiche sur la page html un li avec le text "Tache à faire 4" */
-    todoApp.remove(1) /* retire la tache à faire 2 */
+  // Test:
+  todoApp.add("Tache à faire 1") /* affiche sur la page html un li avec le text "Tache à faire 1" */
+  todoApp.add("Tache à faire 2") /* affiche sur la page html un li avec le text "Tache à faire 2" */
+  todoApp.add("Tache à faire 3") /* affiche sur la page html un li avec le text "Tache à faire 3" */
+  todoApp.add("Tache à faire 4") /* affiche sur la page html un li avec le text "Tache à faire 4" */
 
-    //set adding
-    document.querySelector('#addBtn').addEventListener("click",(event) => {
-        event.preventDefault();
-        todoApp.add(document.querySelector('#taskInput').value)
-    });
+  //set adding
+  document.querySelector('#addBtn').addEventListener("click", (event) => {
+    // event.preventDefault();
 
-    //set removing
-    document.querySelector('#deleteBtn').addEventListener("click",(event) => {
-        event.preventDefault();
-        todoApp.remove(document.querySelector('#taskInput').value)
-    });
+    //check if task input is not empty
+    if (document.querySelector('#taskInput').value) {
+      todoApp.add(document.querySelector('#taskInput').value)
+      //check if error flag is visible and remove it
+      if (document.querySelector('#errorFlag').classList.contains('display-initial')) {
+        document.querySelector('#errorFlag').classList.remove('display-initial')
+      }
+    } else {
+      document.querySelector('#errorFlag').classList.add('display-initial')
+    }
 
+  });
+
+ //set removing
+  document.addEventListener('click', (e) => {
+    if (e.target.className === "deleteBtn") {
+      //
+      let li = e.target.parentNode.innerHTML.split('<');
+      let textFragment = li[0];
+      todoApp.textList.forEach((el,i) => {
+        if (el===textFragment){
+          todoApp.remove(i)
+            console.log(todoApp.textList);
+        }
+      });
+      }
+
+    })
 });

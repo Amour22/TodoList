@@ -4,6 +4,8 @@
   user-select: none;
   outline: none;
   cursor: pointer;
+  scroll-behavior: smooth;
+  transition: .7s;
 }
 
 body {
@@ -12,6 +14,7 @@ body {
   flex-direction: column;
   align-items: center;
   font-family: sans-serif;
+  background-color: #111;
 }
 
 header {
@@ -22,11 +25,11 @@ header {
 
 h1 {
   color: darkgreen;
+  margin-left: 70px;
 }
 
 main {
   width: 50%;
-  /* height: 50%; */
   margin: 100px;
   padding: 50px;
   display: flex;
@@ -38,6 +41,7 @@ main {
 
 ul {
   width: 100%;
+  padding-right:25px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -47,11 +51,14 @@ ul {
 }
 
 li {
+  position: relative;
   width: 100%;
+  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: rgb(240, 248, 255);
+  background-color: #f0f8ff;
+  box-shadow: 0 0 5px inset #f0f8ff;
 }
 
 div {
@@ -60,6 +67,10 @@ div {
   align-items: center;
   gap: 30px;
   margin-bottom: 50px;
+}
+
+div label {
+  color: white;
 }
 
 #taskInput {
@@ -80,13 +91,30 @@ div {
   transform: scale(0.95);
 }
 
-#deleteBtn {
+.deleteBtn {
+  position: absolute;
+  right: -30px;
+  padding: 5px;
+  font-weight: 700;
+  transition: 0.5s;
   color: white;
   background-color: darkred;
-  transition: 0.5s;
-  font-weight: 700;
+  border-radius: 50%;
 }
 
 #deleteBtn:hover {
   transform: scale(0.9);
+}
+
+#errorFlag {
+  display: none;
+  width: 100%;
+  padding: 7px 10px;
+  font-family: monospace;
+  color: darkred;
+  background-color: #f0f8ff;
+}
+
+.display-initial {
+  display: initial !important;
 }
