@@ -16,8 +16,11 @@ class TodoList {
     let deleteBtn = document.createElement("span");
     deleteBtn.innerHTML = "&cross;";
     deleteBtn.className = "deleteBtn";
+    //créer un checkbox
+    let checkbox = document.createElement("input");
+    checkbox.type="checkbox";
     // 2- insérez à l'intérieur le text
-    li.append(text, deleteBtn);
+    li.append(checkbox,text, deleteBtn);
     return li;
   }
 
@@ -56,20 +59,14 @@ document.addEventListener("DOMContentLoaded", event => {
   // Instanciez ensuite un élément de la classe TodoList. (const todoApp = new TodoList(...))
   const todoApp = new TodoList(myList);
 
-  // Test:
-  todoApp.add("Tache à faire 1") /* affiche sur la page html un li avec le text "Tache à faire 1" */
-  todoApp.add("Tache à faire 2") /* affiche sur la page html un li avec le text "Tache à faire 2" */
-  todoApp.add("Tache à faire 3") /* affiche sur la page html un li avec le text "Tache à faire 3" */
-  todoApp.add("Tache à faire 4") /* affiche sur la page html un li avec le text "Tache à faire 4" */
-
-  //set adding
+  //on configure l'ajout de tâche
   document.querySelector('#addBtn').addEventListener("click", (event) => {
-    // event.preventDefault();
 
-    //check if task input is not empty
+    //on vérifie si la tâche entré est valide
     if (document.querySelector('#taskInput').value) {
       todoApp.add(document.querySelector('#taskInput').value)
-      //check if error flag is visible and remove it
+      document.querySelector('#taskInput').value = ""
+      //on vérifie si l'afficheur d'erreur est visible. si oui on le fait disparaitre. si non on le rend visible
       if (document.querySelector('#errorFlag').classList.contains('display-initial')) {
         document.querySelector('#errorFlag').classList.remove('display-initial')
       }
@@ -79,19 +76,20 @@ document.addEventListener("DOMContentLoaded", event => {
 
   });
 
- //set removing
+  //on configure la suppression de tâches
   document.addEventListener('click', (e) => {
     if (e.target.className === "deleteBtn") {
-      //
-      let li = e.target.parentNode.innerHTML.split('<');
+      //on récupère le contenu de la liste sous forme de tableau
+      let li = e.target.parentNode.innerHTML.split('>')[1].split('<');
+      //on recupère la chaine de charactère qui correspond à la tâche
       let textFragment = li[0];
-      todoApp.textList.forEach((el,i) => {
-        if (el===textFragment){
+      //on parcours la liste des taches et on vérifie s'il y a correspondance. si oui on supprime la tache
+      todoApp.textList.forEach((el, i) => {
+        if (el === textFragment) {
           todoApp.remove(i)
-            console.log(todoApp.textList);
         }
       });
-      }
+    }
 
-    })
+  })
 });
