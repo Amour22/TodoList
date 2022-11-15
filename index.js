@@ -37,7 +37,7 @@ class TodoList {
   add(text) {
     // se charge d'ajouter le text au tableau "textList" créée dans le constructeur
     // 1- ajoutez le "text" à "textList"
-    this.textList.push(text);
+    this.textList.push(text.trim());
     // 2- appelez la méthode update() de la classe pour mettre à jour la list
     this.update();
   }
@@ -79,10 +79,9 @@ document.addEventListener("DOMContentLoaded", event => {
   //on configure la suppression de tâches
   document.addEventListener('click', (e) => {
     if (e.target.className === "deleteBtn") {
-      //on récupère le contenu de la liste sous forme de tableau
-      let li = e.target.parentNode.innerHTML.split('>')[1].split('<');
       //on recupère la chaine de charactère qui correspond à la tâche
-      let textFragment = li[0];
+      let textFragment = e.target.parentNode.innerHTML.split('<')[1].split('>')[1].trim();
+      console.log(textFragment);
       //on parcours la liste des taches et on vérifie s'il y a correspondance. si oui on supprime la tache
       todoApp.textList.forEach((el, i) => {
         if (el === textFragment) {
